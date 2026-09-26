@@ -4,7 +4,7 @@ Deskripsi singkat tentang halaman/website ini dan tujuannya.
 
 ## Demo
 
-🔗 [Lihat Demo Langsung](https://username.github.io/nama-proyek)
+🔗 [Lihat Demo Langsung][(https://almahiru.github.io/glinknetwork/)]
 
 ## Daftar Isi
 
@@ -81,4 +81,4 @@ Proyek ini dilisensikan di bawah [MIT License](LICENSE).
 
 Nama Anda - ahmjito@gmail.com
 
-Link Proyek: [https://github.com/username/nama-proyek](https://github.com/username/nama-proyek)
+Link Proyek: [https://almahiru.github.io/glinknetwork/]
