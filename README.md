@@ -81,4 +81,4 @@ Proyek ini dilisensikan di bawah [MIT License](LICENSE).
 
 Nama Anda - ahmjito@gmail.com
 
-Link Proyek: [https://almahiru.github.io/glinknetwork/]
+Link Proyek: [https://github.com/almahiru/glinknetwork]
