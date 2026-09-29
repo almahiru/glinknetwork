@@ -1,301 +1,590 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Status Dashboard</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-:root {
-  box-sizing: border-box;
-  padding-top: env(safe-area-inset-top, 0px);
-  padding-bottom: env(safe-area-inset-bottom, 0px);
-  --bg: #eef1f4;
-  --surface: #ffffff;
-  --ink: #1c2633;
-  --ink-soft: #5b6775;
-  --line: #d5dbe2;
-  --ghost: #dfe4ea;
-  --wait: #b77c00;
-  --wait-bg: #fbf0d2;
-  --run: #2b5fa8;
-  --run-bg: #dde8f7;
-  --done: #1f7a6d;
-  --done-bg: #d6efe9;
-  --idle: #6a7581;
-  --idle-bg: #e6eaef;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #131a22;
-    --surface: #1b2430;
-    --ink: #e8edf2;
-    --ink-soft: #98a4b1;
-    --line: #2c3746;
-    --ghost: #263140;
-    --wait: #f0b93a;
-    --wait-bg: #3a2f10;
-    --run: #7fb0ee;
-    --run-bg: #1d3352;
-    --done: #59c9b6;
-    --done-bg: #143a34;
-    --idle: #9aa6b3;
-    --idle-bg: #263140;
-  }
-}
-:root[data-theme="dark"] {
-  --bg: #131a22;
-  --surface: #1b2430;
-  --ink: #e8edf2;
-  --ink-soft: #98a4b1;
-  --line: #2c3746;
-  --ghost: #263140;
-  --wait: #f0b93a;
-  --wait-bg: #3a2f10;
-  --run: #7fb0ee;
-  --run-bg: #1d3352;
-  --done: #59c9b6;
-  --done-bg: #143a34;
-  --idle: #9aa6b3;
-  --idle-bg: #263140;
-}
-*, *::before, *::after { box-sizing: inherit; }
-html { height: 100%; scroll-padding-top: env(safe-area-inset-top, 0px); }
-body {
-  margin: 0;
-  min-height: 100%;
-  background: var(--bg);
-  color: var(--ink);
-  font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-  font-size: 16px;
-  line-height: 1.55;
-}
-.wrap { max-width: 980px; margin: 0 auto; padding: 32px 20px 56px; }
+    <head>
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, viewport-fit=cover"
+        />
+        <title>Status Dashboard</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            :root {
+                box-sizing: border-box;
+                padding-top: env(safe-area-inset-top, 0px);
+                padding-bottom: env(safe-area-inset-bottom, 0px);
+                --bg: #eef1f4;
+                --surface: #ffffff;
+                --ink: #1c2633;
+                --ink-soft: #5b6775;
+                --line: #d5dbe2;
+                --ghost: #dfe4ea;
+                --wait: #b77c00;
+                --wait-bg: #fbf0d2;
+                --run: #2b5fa8;
+                --run-bg: #dde8f7;
+                --done: #1f7a6d;
+                --done-bg: #d6efe9;
+                --idle: #6a7581;
+                --idle-bg: #e6eaef;
+            }
+            @media (prefers-color-scheme: dark) {
+                :root:not([data-theme="light"]) {
+                    --bg: #131a22;
+                    --surface: #1b2430;
+                    --ink: #e8edf2;
+                    --ink-soft: #98a4b1;
+                    --line: #2c3746;
+                    --ghost: #263140;
+                    --wait: #f0b93a;
+                    --wait-bg: #3a2f10;
+                    --run: #7fb0ee;
+                    --run-bg: #1d3352;
+                    --done: #59c9b6;
+                    --done-bg: #143a34;
+                    --idle: #9aa6b3;
+                    --idle-bg: #263140;
+                }
+            }
+            :root[data-theme="dark"] {
+                --bg: #131a22;
+                --surface: #1b2430;
+                --ink: #e8edf2;
+                --ink-soft: #98a4b1;
+                --line: #2c3746;
+                --ghost: #263140;
+                --wait: #f0b93a;
+                --wait-bg: #3a2f10;
+                --run: #7fb0ee;
+                --run-bg: #1d3352;
+                --done: #59c9b6;
+                --done-bg: #143a34;
+                --idle: #9aa6b3;
+                --idle-bg: #263140;
+            }
+            *,
+            *::before,
+            *::after {
+                box-sizing: inherit;
+            }
+            html {
+                height: 100%;
+                scroll-padding-top: env(safe-area-inset-top, 0px);
+            }
+            body {
+                margin: 0;
+                min-height: 100%;
+                background: var(--bg);
+                color: var(--ink);
+                font-family:
+                    "IBM Plex Sans",
+                    system-ui,
+                    -apple-system,
+                    "Segoe UI",
+                    sans-serif;
+                font-size: 16px;
+                line-height: 1.55;
+            }
+            .wrap {
+                max-width: 980px;
+                margin: 0 auto;
+                padding: 32px 20px 56px;
+            }
 
-/* Header */
-.top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 28px; }
-.top .name { font-weight: 600; font-size: 15px; color: var(--ink-soft); }
-.pill {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 6px 14px; border-radius: 999px;
-  font-weight: 600; font-size: 14px;
-  background: var(--wait-bg); color: var(--wait);
-}
-.pill::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: currentColor; }
-.is-ready .pill { background: var(--done-bg); color: var(--done); }
+            /* Header */
+            .top {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 12px;
+                margin-bottom: 28px;
+            }
+            .top .name {
+                font-weight: 600;
+                font-size: 15px;
+                color: var(--ink-soft);
+            }
+            .pill {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                padding: 6px 14px;
+                border-radius: 999px;
+                font-weight: 600;
+                font-size: 14px;
+                background: var(--wait-bg);
+                color: var(--wait);
+            }
+            .pill::before {
+                content: "";
+                width: 9px;
+                height: 9px;
+                border-radius: 50%;
+                background: currentColor;
+            }
+            .is-ready .pill {
+                background: var(--done-bg);
+                color: var(--done);
+            }
 
-/* Stage: ghost dashboard + statement */
-.stage {
-  position: relative;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 20px;
-  padding: 28px;
-  overflow: hidden;
-}
-.ghost {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: 64px 150px 84px;
-  gap: 14px;
-  opacity: .9;
-}
-.ghost > div { background: var(--ghost); border-radius: 10px; }
-.ghost .chart { grid-column: span 3; position: relative; }
-.ghost .side { grid-column: span 1; }
-.ghost .table { grid-column: span 4; }
-.ghost .chart::after {
-  content: ""; position: absolute; left: 6%; right: 6%; bottom: 18%; height: 2px;
-  background: var(--line);
-}
-.bars { position: absolute; left: 8%; right: 8%; bottom: 20%; display: flex; align-items: flex-end; gap: 4%; height: 60%; }
-.bars i { flex: 1; background: var(--line); border-radius: 4px 4px 0 0; }
-.bars i:nth-child(1){height:38%} .bars i:nth-child(2){height:62%} .bars i:nth-child(3){height:48%}
-.bars i:nth-child(4){height:80%} .bars i:nth-child(5){height:56%} .bars i:nth-child(6){height:92%}
-.bars i:nth-child(7){height:70%}
+            /* Stage: ghost dashboard + statement */
+            .stage {
+                position: relative;
+                background: var(--surface);
+                border: 1px solid var(--line);
+                border-radius: 20px;
+                padding: 28px;
+                overflow: hidden;
+            }
+            .ghost {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                grid-template-rows: 64px 150px 84px;
+                gap: 14px;
+                opacity: 0.9;
+            }
+            .ghost > div {
+                background: var(--ghost);
+                border-radius: 10px;
+            }
+            .ghost .chart {
+                grid-column: span 3;
+                position: relative;
+            }
+            .ghost .side {
+                grid-column: span 1;
+            }
+            .ghost .table {
+                grid-column: span 4;
+            }
+            .ghost .chart::after {
+                content: "";
+                position: absolute;
+                left: 6%;
+                right: 6%;
+                bottom: 18%;
+                height: 2px;
+                background: var(--line);
+            }
+            .bars {
+                position: absolute;
+                left: 8%;
+                right: 8%;
+                bottom: 20%;
+                display: flex;
+                align-items: flex-end;
+                gap: 4%;
+                height: 60%;
+            }
+            .bars i {
+                flex: 1;
+                background: var(--line);
+                border-radius: 4px 4px 0 0;
+            }
+            .bars i:nth-child(1) {
+                height: 38%;
+            }
+            .bars i:nth-child(2) {
+                height: 62%;
+            }
+            .bars i:nth-child(3) {
+                height: 48%;
+            }
+            .bars i:nth-child(4) {
+                height: 80%;
+            }
+            .bars i:nth-child(5) {
+                height: 56%;
+            }
+            .bars i:nth-child(6) {
+                height: 92%;
+            }
+            .bars i:nth-child(7) {
+                height: 70%;
+            }
 
-.statement {
-  position: absolute; inset: 0;
-  display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
-  padding: 0 clamp(24px, 6vw, 64px);
-  background: linear-gradient(90deg, var(--surface) 0%, var(--surface) 42%, transparent 100%);
-}
-h1 {
-  font-family: "Bricolage Grotesque", "IBM Plex Sans", system-ui, sans-serif;
-  font-weight: 700;
-  font-size: clamp(30px, 6.4vw, 56px);
-  line-height: 1.05;
-  letter-spacing: -0.02em;
-  margin: 0 0 12px;
-  max-width: 11ch;
-}
-.statement p { margin: 0; max-width: 32ch; color: var(--ink-soft); }
+            .statement {
+                position: absolute;
+                inset: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: flex-start;
+                padding: 0 clamp(24px, 6vw, 64px);
+                background: linear-gradient(
+                    90deg,
+                    var(--surface) 0%,
+                    var(--surface) 42%,
+                    transparent 100%
+                );
+            }
+            h1 {
+                font-family:
+                    "Bricolage Grotesque", "IBM Plex Sans", system-ui,
+                    sans-serif;
+                font-weight: 700;
+                font-size: clamp(30px, 6.4vw, 56px);
+                line-height: 1.05;
+                letter-spacing: -0.02em;
+                margin: 0 0 12px;
+                max-width: 11ch;
+            }
+            .statement p {
+                margin: 0;
+                max-width: 32ch;
+                color: var(--ink-soft);
+            }
 
-/* Progress */
-.progress { margin: 28px 0 8px; display: flex; align-items: center; gap: 16px; }
-.track { flex: 1; height: 10px; background: var(--idle-bg); border-radius: 999px; overflow: hidden; }
-.fill { height: 100%; width: 0; background: var(--wait); border-radius: 999px; transition: width .7s ease, background-color .3s; }
-.is-ready .fill { background: var(--done); }
-.pct { font-family: "Bricolage Grotesque", "IBM Plex Sans", sans-serif; font-weight: 700; font-size: 22px; min-width: 3.2ch; text-align: right; }
-.hint { color: var(--ink-soft); font-size: 14px; margin: 0 0 20px; }
+            /* Progress */
+            .progress {
+                margin: 28px 0 8px;
+                display: flex;
+                align-items: center;
+                gap: 16px;
+            }
+            .track {
+                flex: 1;
+                height: 10px;
+                background: var(--idle-bg);
+                border-radius: 999px;
+                overflow: hidden;
+            }
+            .fill {
+                height: 100%;
+                width: 0;
+                background: var(--wait);
+                border-radius: 999px;
+                transition:
+                    width 0.7s ease,
+                    background-color 0.3s;
+            }
+            .is-ready .fill {
+                background: var(--done);
+            }
+            .pct {
+                font-family: "Bricolage Grotesque", "IBM Plex Sans", sans-serif;
+                font-weight: 700;
+                font-size: 22px;
+                min-width: 3.2ch;
+                text-align: right;
+            }
+            .hint {
+                color: var(--ink-soft);
+                font-size: 14px;
+                margin: 0 0 20px;
+            }
 
-/* Checklist */
-.list { display: grid; gap: 10px; padding: 0; margin: 0; list-style: none; }
-.item {
-  width: 100%; text-align: left; font: inherit; color: inherit;
-  display: grid; grid-template-columns: 1fr auto; gap: 4px 16px; align-items: center;
-  background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
-  padding: 14px 16px; cursor: pointer;
-}
-.item:hover { border-color: var(--ink-soft); }
-.item:focus-visible, .btn:focus-visible { outline: 3px solid var(--run); outline-offset: 2px; }
-.item .t { font-weight: 600; }
-.item .d { grid-column: 1; color: var(--ink-soft); font-size: 14px; }
-.badge { grid-row: 1 / span 2; grid-column: 2; padding: 4px 12px; border-radius: 999px; font-size: 13px; font-weight: 600; white-space: nowrap; }
-.s-idle .badge { background: var(--idle-bg); color: var(--idle); }
-.s-run .badge { background: var(--run-bg); color: var(--run); }
-.s-done .badge { background: var(--done-bg); color: var(--done); }
-.s-done .t { text-decoration: line-through; text-decoration-color: var(--line); }
+            /* Checklist */
+            .list {
+                display: grid;
+                gap: 10px;
+                padding: 0;
+                margin: 0;
+                list-style: none;
+            }
+            .item {
+                width: 100%;
+                text-align: left;
+                font: inherit;
+                color: inherit;
+                display: grid;
+                grid-template-columns: 1fr auto;
+                gap: 4px 16px;
+                align-items: center;
+                background: var(--surface);
+                border: 1px solid var(--line);
+                border-radius: 12px;
+                padding: 14px 16px;
+                cursor: pointer;
+            }
+            .item:hover {
+                border-color: var(--ink-soft);
+            }
+            .item:focus-visible,
+            .btn:focus-visible {
+                outline: 3px solid var(--run);
+                outline-offset: 2px;
+            }
+            .item .t {
+                font-weight: 600;
+            }
+            .item .d {
+                grid-column: 1;
+                color: var(--ink-soft);
+                font-size: 14px;
+            }
+            .badge {
+                grid-row: 1 / span 2;
+                grid-column: 2;
+                padding: 4px 12px;
+                border-radius: 999px;
+                font-size: 13px;
+                font-weight: 600;
+                white-space: nowrap;
+            }
+            .s-idle .badge {
+                background: var(--idle-bg);
+                color: var(--idle);
+            }
+            .s-run .badge {
+                background: var(--run-bg);
+                color: var(--run);
+            }
+            .s-done .badge {
+                background: var(--done-bg);
+                color: var(--done);
+            }
+            .s-done .t {
+                text-decoration: line-through;
+                text-decoration-color: var(--line);
+            }
 
-.foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-top: 24px; color: var(--ink-soft); font-size: 14px; }
-.btn {
-  font: inherit; font-weight: 600; color: var(--ink);
-  background: transparent; border: 1px solid var(--line); border-radius: 10px;
-  padding: 9px 16px; cursor: pointer;
-}
-.btn:hover { border-color: var(--ink-soft); }
+            .foot {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                justify-content: space-between;
+                gap: 12px;
+                margin-top: 24px;
+                color: var(--ink-soft);
+                font-size: 14px;
+            }
+            .btn {
+                font: inherit;
+                font-weight: 600;
+                color: var(--ink);
+                background: transparent;
+                border: 1px solid var(--line);
+                border-radius: 10px;
+                padding: 9px 16px;
+                cursor: pointer;
+            }
+            .btn:hover {
+                border-color: var(--ink-soft);
+            }
 
-@media (max-width: 640px) {
-  .wrap { padding: 20px 16px 40px; }
-  .stage { padding: 16px; }
-  .ghost { grid-template-rows: 44px 110px 60px; gap: 10px; }
-  .statement { background: linear-gradient(180deg, var(--surface) 0%, var(--surface) 55%, transparent 100%); justify-content: flex-start; padding-top: 28px; }
-  h1 { max-width: 14ch; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .fill { transition: none; }
-}
-</style>
-</head>
-<body>
-<div class="wrap" id="app">
-  <div class="top">
-    <span class="name">Status dashboard</span>
-    <span class="pill" id="pill">Belum ready</span>
-  </div>
+            @media (max-width: 640px) {
+                .wrap {
+                    padding: 20px 16px 40px;
+                }
+                .stage {
+                    padding: 16px;
+                }
+                .ghost {
+                    grid-template-rows: 44px 110px 60px;
+                    gap: 10px;
+                }
+                .statement {
+                    background: linear-gradient(
+                        180deg,
+                        var(--surface) 0%,
+                        var(--surface) 55%,
+                        transparent 100%
+                    );
+                    justify-content: flex-start;
+                    padding-top: 28px;
+                }
+                h1 {
+                    max-width: 14ch;
+                }
+            }
+            @media (prefers-reduced-motion: reduce) {
+                .fill {
+                    transition: none;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="wrap" id="app">
+            <div class="top">
+                <span class="name">Status dashboard</span>
+                <span class="pill" id="pill">Belum ready</span>
+            </div>
 
-  <section class="stage" aria-labelledby="judul">
-    <div class="ghost" aria-hidden="true">
-      <div></div><div></div><div></div><div></div>
-      <div class="chart"><div class="bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
-      <div class="side"></div>
-      <div class="table"></div>
-    </div>
-    <div class="statement">
-      <h1 id="judul">Dashboard belum siap dipakai</h1>
-      <p id="sub">Tim masih menyiapkan data dan tampilannya. Cek lagi nanti.</p>
-    </div>
-  </section>
+            <section class="stage" aria-labelledby="judul">
+                <div class="ghost" aria-hidden="true">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div class="chart">
+                        <div class="bars">
+                            <i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+                        </div>
+                    </div>
+                    <div class="side"></div>
+                    <div class="table"></div>
+                </div>
+                <div class="statement">
+                    <h1 id="judul">Dashboard belum siap dipakai</h1>
+                    <p id="sub">
+                        Tim masih menyiapkan data dan tampilannya. Cek lagi
+                        nanti.
+                    </p>
+                </div>
+            </section>
 
-  <div class="progress">
-    <div class="track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="track">
-      <div class="fill" id="fill"></div>
-    </div>
-    <div class="pct" id="pct">0%</div>
-  </div>
-  <p class="hint">Ketuk sebuah tahap untuk mengubah statusnya.</p>
+            <div class="progress">
+                <div
+                    class="track"
+                    role="progressbar"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-valuenow="0"
+                    id="track"
+                >
+                    <div class="fill" id="fill"></div>
+                </div>
+                <div class="pct" id="pct">0%</div>
+            </div>
+            <p class="hint">Ketuk sebuah tahap untuk mengubah statusnya.</p>
 
-  <ul class="list" id="list"></ul>
+            <ul class="list" id="list"></ul>
 
-  <div class="foot">
-    <span id="updated">Diperbarui —</span>
-    <button class="btn" id="reset" type="button">Atur ulang status</button>
-  </div>
-</div>
+            <div class="foot">
+                <span id="updated">Diperbarui —</span>
+                <button class="btn" id="reset" type="button">
+                    Atur ulang status
+                </button>
+            </div>
+        </div>
 
-<script>
-(function () {
-  var STEPS = [
-    { id: "sumber",  title: "Sumber data terhubung",   desc: "Koneksi ke database atau file sumber." },
-    { id: "pipeline", title: "Pipeline data berjalan", desc: "Data dibersihkan dan diperbarui otomatis." },
-    { id: "visual",  title: "Grafik dan tabel selesai", desc: "Tampilan utama dashboard sudah dibuat." },
-    { id: "akses",   title: "Hak akses diatur",         desc: "Pengguna yang tepat bisa membuka dashboard." }
-  ];
-  var LABEL = ["Belum mulai", "Berjalan", "Selesai"];
-  var CLS = ["s-idle", "s-run", "s-done"];
-  var KEY = "status-dashboard-v1";
+        <script>
+            (function () {
+                var STEPS = [
+                    {
+                        id: "sumber",
+                        title: "Sumber data terhubung",
+                        desc: "Koneksi ke database atau file sumber."
+                    },
+                    {
+                        id: "pipeline",
+                        title: "Pipeline data berjalan",
+                        desc: "Data dibersihkan dan diperbarui otomatis."
+                    },
+                    {
+                        id: "visual",
+                        title: "Grafik dan tabel selesai",
+                        desc: "Tampilan utama dashboard sudah dibuat."
+                    },
+                    {
+                        id: "akses",
+                        title: "Hak akses diatur",
+                        desc: "Pengguna yang tepat bisa membuka dashboard."
+                    }
+                ];
+                var LABEL = ["Belum mulai", "Berjalan", "Selesai"];
+                var CLS = ["s-idle", "s-run", "s-done"];
+                var KEY = "status-dashboard-v1";
 
-  var state = { s: [2, 1, 0, 0], t: null };
+                var state = { s: [2, 1, 0, 0], t: null };
 
-  try {
-    var raw = localStorage.getItem(KEY);
-    if (raw) {
-      var p = JSON.parse(raw);
-      if (p && Array.isArray(p.s) && p.s.length === STEPS.length) state = p;
-    }
-  } catch (e) {}
+                try {
+                    var raw = localStorage.getItem(KEY);
+                    if (raw) {
+                        var p = JSON.parse(raw);
+                        if (
+                            p &&
+                            Array.isArray(p.s) &&
+                            p.s.length === STEPS.length
+                        )
+                            state = p;
+                    }
+                } catch (e) {}
 
-  function save() {
-    try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
-  }
+                function save() {
+                    try {
+                        localStorage.setItem(KEY, JSON.stringify(state));
+                    } catch (e) {}
+                }
 
-  function fmt(ts) {
-    var d = ts ? new Date(ts) : new Date();
-    return d.toLocaleString("id-ID", { day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" });
-  }
+                function fmt(ts) {
+                    var d = ts ? new Date(ts) : new Date();
+                    return d.toLocaleString("id-ID", {
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit"
+                    });
+                }
 
-  var list = document.getElementById("list");
+                var list = document.getElementById("list");
 
-  function render() {
-    list.innerHTML = "";
-    var score = 0;
-    STEPS.forEach(function (st, i) {
-      var v = state.s[i];
-      score += v === 2 ? 1 : v === 1 ? 0.5 : 0;
-      var li = document.createElement("li");
-      var b = document.createElement("button");
-      b.type = "button";
-      b.className = "item " + CLS[v];
-      b.setAttribute("aria-label", st.title + ", status " + LABEL[v] + ". Ketuk untuk mengubah.");
-      b.innerHTML = '<span class="t"></span><span class="d"></span><span class="badge"></span>';
-      b.querySelector(".t").textContent = st.title;
-      b.querySelector(".d").textContent = st.desc;
-      b.querySelector(".badge").textContent = LABEL[v];
-      b.addEventListener("click", function () {
-        state.s[i] = (state.s[i] + 1) % 3;
-        state.t = Date.now();
-        save();
-        render();
-      });
-      li.appendChild(b);
-      list.appendChild(li);
-    });
+                function render() {
+                    list.innerHTML = "";
+                    var score = 0;
+                    STEPS.forEach(function (st, i) {
+                        var v = state.s[i];
+                        score += v === 2 ? 1 : v === 1 ? 0.5 : 0;
+                        var li = document.createElement("li");
+                        var b = document.createElement("button");
+                        b.type = "button";
+                        b.className = "item " + CLS[v];
+                        b.setAttribute(
+                            "aria-label",
+                            st.title +
+                                ", status " +
+                                LABEL[v] +
+                                ". Ketuk untuk mengubah."
+                        );
+                        b.innerHTML =
+                            '<span class="t"></span><span class="d"></span><span class="badge"></span>';
+                        b.querySelector(".t").textContent = st.title;
+                        b.querySelector(".d").textContent = st.desc;
+                        b.querySelector(".badge").textContent = LABEL[v];
+                        b.addEventListener("click", function () {
+                            state.s[i] = (state.s[i] + 1) % 3;
+                            state.t = Date.now();
+                            save();
+                            render();
+                        });
+                        li.appendChild(b);
+                        list.appendChild(li);
+                    });
 
-    var pct = Math.round((score / STEPS.length) * 100);
-    var ready = state.s.every(function (v) { return v === 2; });
+                    var pct = Math.round((score / STEPS.length) * 100);
+                    var ready = state.s.every(function (v) {
+                        return v === 2;
+                    });
 
-    document.getElementById("fill").style.width = pct + "%";
-    document.getElementById("pct").textContent = pct + "%";
-    document.getElementById("track").setAttribute("aria-valuenow", pct);
-    document.getElementById("app").classList.toggle("is-ready", ready);
-    document.getElementById("pill").textContent = ready ? "Ready" : "Belum ready";
-    document.getElementById("judul").textContent = ready ? "Dashboard sudah siap dipakai" : "Dashboard belum siap dipakai";
-    document.getElementById("sub").textContent = ready
-      ? "Semua tahap selesai. Dashboard bisa dibuka sekarang."
-      : "Tim masih menyiapkan data dan tampilannya. Cek lagi nanti.";
-    document.getElementById("updated").textContent = "Diperbarui " + fmt(state.t);
-  }
+                    document.getElementById("fill").style.width = pct + "%";
+                    document.getElementById("pct").textContent = pct + "%";
+                    document
+                        .getElementById("track")
+                        .setAttribute("aria-valuenow", pct);
+                    document
+                        .getElementById("app")
+                        .classList.toggle("is-ready", ready);
+                    document.getElementById("pill").textContent = ready
+                        ? "Ready"
+                        : "Belum ready";
+                    document.getElementById("judul").textContent = ready
+                        ? "Dashboard sudah siap dipakai"
+                        : "Dashboard belum siap dipakai";
+                    document.getElementById("sub").textContent = ready
+                        ? "Semua tahap selesai. Dashboard bisa dibuka sekarang."
+                        : "Tim masih menyiapkan data dan tampilannya. Cek lagi nanti.";
+                    document.getElementById("updated").textContent =
+                        "Diperbarui " + fmt(state.t);
+                }
 
-  document.getElementById("reset").addEventListener("click", function () {
-    state = { s: [2, 1, 0, 0], t: Date.now() };
-    save();
-    render();
-  });
+                document
+                    .getElementById("reset")
+                    .addEventListener("click", function () {
+                        state = { s: [2, 1, 0, 0], t: Date.now() };
+                        save();
+                        render();
+                    });
 
-  render();
-})();
-</script>
-</body>
+                render();
+            })();
+        </script>
+    </body>
 </html>
