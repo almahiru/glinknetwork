@@ -29,8 +29,8 @@ if (loginForm) {
       Password : glink123
     */
 
-        const validUsername = "admin";
-        const validPassword = "glink123";
+        const validUsername = "user";
+        const validPassword = "user123";
 
         if (username === validUsername && password === validPassword) {
             loginButton.disabled = true;
