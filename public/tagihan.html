@@ -1,754 +1,342 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
-    <head>
-        <meta charset="utf-8" />
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, viewport-fit=cover"
-        />
-        <title>Form Pembayaran Internet</title>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Instrument+Sans:wght@400;500;600&display=swap"
-            rel="stylesheet"
-        />
-        <style>
-            :root {
-                --bg: #eef2f1;
-                --panel: #ffffff;
-                --text: #14262b;
-                --muted: #5b6f73;
-                --line: #d5dedd;
-                --accent: #0e6b6b;
-                --accent-ink: #ffffff;
-                --field: #f7faf9;
-                --soft: #e7f1f0;
-                --danger: #b3261e;
-                --ok: #1f7a4a;
-                --ok-soft: #e6f4ec;
-                box-sizing: border-box;
-                padding-top: env(safe-area-inset-top, 0px);
-                padding-bottom: env(safe-area-inset-bottom, 0px);
-            }
-            @media (prefers-color-scheme: dark) {
-                :root:not([data-theme="light"]) {
-                    --bg: #0f1819;
-                    --panel: #172325;
-                    --text: #e6eeed;
-                    --muted: #9db1b4;
-                    --line: #2a3a3d;
-                    --accent: #3fb6b0;
-                    --accent-ink: #08201f;
-                    --field: #1d2c2f;
-                    --soft: #1d3234;
-                    --danger: #ff8a80;
-                    --ok: #4cc38a;
-                    --ok-soft: #173126;
-                }
-            }
-            :root[data-theme="dark"] {
-                --bg: #0f1819;
-                --panel: #172325;
-                --text: #e6eeed;
-                --muted: #9db1b4;
-                --line: #2a3a3d;
-                --accent: #3fb6b0;
-                --accent-ink: #08201f;
-                --field: #1d2c2f;
-                --soft: #1d3234;
-                --danger: #ff8a80;
-                --ok: #4cc38a;
-                --ok-soft: #173126;
-            }
-            html {
-                scroll-padding-top: env(safe-area-inset-top, 0px);
-            }
-            * {
-                box-sizing: border-box;
-            }
-            body {
-                margin: 0;
-                background: var(--bg);
-                color: var(--text);
-                font:
-                    16px/1.5 "Instrument Sans",
-                    system-ui,
-                    -apple-system,
-                    "Segoe UI",
-                    Roboto,
-                    sans-serif;
-            }
-            h1,
-            h2,
-            h3 {
-                font-family:
-                    "Bricolage Grotesque", "Instrument Sans", system-ui,
-                    sans-serif;
-                margin: 0;
-            }
-            main {
-                max-width: 560px;
-                margin: 0 auto;
-                padding: 16px;
-            }
-            .brand {
-                padding: 8px 2px 14px;
-            }
-            .brand h1 {
-                font-size: 24px;
-            }
-            .brand p {
-                margin: 2px 0 0;
-                color: var(--muted);
-                font-size: 14px;
-            }
-            .card {
-                background: var(--panel);
-                border: 1px solid var(--line);
-                border-radius: 14px;
-                padding: 16px;
-                margin-bottom: 14px;
-            }
-            .card h2 {
-                font-size: 17px;
-                margin-bottom: 10px;
-            }
-            .pay-info {
-                background: var(--soft);
-                border-color: transparent;
-            }
-            .pay-info .acc {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                gap: 10px;
-                padding: 8px 0;
-                border-top: 1px solid var(--line);
-            }
-            .pay-info .acc:first-of-type {
-                border-top: 0;
-            }
-            .pay-info .acc div {
-                min-width: 0;
-            }
-            .pay-info .bank {
-                font-weight: 600;
-            }
-            .pay-info .no {
-                font-size: 18px;
-                font-variant-numeric: tabular-nums;
-                letter-spacing: 0.02em;
-                word-break: break-all;
-            }
-            .pay-info .an {
-                color: var(--muted);
-                font-size: 13px;
-            }
-            label {
-                display: block;
-                font-size: 14px;
-                font-weight: 500;
-                margin: 0 0 14px;
-            }
-            .hint {
-                display: block;
-                font-weight: 400;
-                color: var(--muted);
-                font-size: 13px;
-            }
-            input,
-            textarea,
-            select {
-                display: block;
-                width: 100%;
-                margin-top: 5px;
-                padding: 12px;
-                font: inherit;
-                color: var(--text);
-                background: var(--field);
-                border: 1px solid var(--line);
-                border-radius: 10px;
-                min-height: 46px;
-            }
-            textarea {
-                min-height: 76px;
-                resize: vertical;
-            }
-            input:focus-visible,
-            textarea:focus-visible,
-            select:focus-visible,
-            button:focus-visible,
-            a.btn:focus-visible,
-            summary:focus-visible {
-                outline: 2px solid var(--accent);
-                outline-offset: 2px;
-            }
-            .invalid {
-                border-color: var(--danger);
-            }
-            .err {
-                color: var(--danger);
-                font-size: 13px;
-                font-weight: 400;
-                margin-top: 4px;
-                display: none;
-            }
-            .err.show {
-                display: block;
-            }
-            .row2 {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 12px;
-            }
-            .money {
-                position: relative;
-            }
-            .money span {
-                position: absolute;
-                left: 12px;
-                top: 17px;
-                color: var(--muted);
-            }
-            .money input {
-                padding-left: 38px;
-                font-variant-numeric: tabular-nums;
-            }
-            button,
-            a.btn {
-                font: inherit;
-                font-weight: 600;
-                cursor: pointer;
-                border-radius: 10px;
-                padding: 13px 16px;
-                min-height: 48px;
-                border: 1px solid var(--line);
-                background: var(--panel);
-                color: var(--text);
-                text-align: center;
-                text-decoration: none;
-                display: block;
-                width: 100%;
-            }
-            .primary {
-                background: var(--accent);
-                color: var(--accent-ink);
-                border-color: var(--accent);
-            }
-            .small-btn {
-                width: auto;
-                min-height: 36px;
-                padding: 6px 12px;
-                font-size: 14px;
-                flex: none;
-            }
-            details.admin {
-                margin-top: 6px;
-            }
-            details.admin summary {
-                cursor: pointer;
-                color: var(--muted);
-                font-size: 14px;
-                padding: 6px 2px;
-            }
-            details.admin .card {
-                margin-top: 8px;
-            }
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Form Pembayaran Internet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #EEF2F1; --panel: #FFFFFF; --text: #14262B; --muted: #5B6F73;
+  --line: #D5DEDD; --accent: #0E6B6B; --accent-ink: #FFFFFF; --field: #F7FAF9;
+  --soft: #E7F1F0; --danger: #B3261E; --ok: #1F7A4A; --ok-soft: #E6F4EC;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0F1819; --panel: #172325; --text: #E6EEED; --muted: #9DB1B4;
+    --line: #2A3A3D; --accent: #3FB6B0; --accent-ink: #08201F; --field: #1D2C2F;
+    --soft: #1D3234; --danger: #FF8A80; --ok: #4CC38A; --ok-soft: #173126;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0F1819; --panel: #172325; --text: #E6EEED; --muted: #9DB1B4;
+  --line: #2A3A3D; --accent: #3FB6B0; --accent-ink: #08201F; --field: #1D2C2F;
+  --soft: #1D3234; --danger: #FF8A80; --ok: #4CC38A; --ok-soft: #173126;
+}
+html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.5 "Instrument Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+h1, h2, h3 { font-family: "Bricolage Grotesque", "Instrument Sans", system-ui, sans-serif; margin: 0; }
+main { max-width: 560px; margin: 0 auto; padding: 16px; }
+.brand { padding: 8px 2px 14px; }
+.brand h1 { font-size: 24px; }
+.back-link[hidden] { display: none; }
+.back-link { display: inline-flex; align-items: center; width: auto; min-height: 40px; padding: 8px 14px 8px 10px; margin: 0 0 8px; font-size: 15px; background: var(--panel); }
+.brand p { margin: 2px 0 0; color: var(--muted); font-size: 14px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 16px; margin-bottom: 14px; }
+.card h2 { font-size: 17px; margin-bottom: 10px; }
+.pay-info { background: var(--soft); border-color: transparent; }
+.pay-info .acc { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 8px 0; border-top: 1px solid var(--line); }
+.pay-info .acc:first-of-type { border-top: 0; }
+.pay-info .acc div { min-width: 0; }
+.pay-info .bank { font-weight: 600; }
+.pay-info .no { font-size: 18px; font-variant-numeric: tabular-nums; letter-spacing: .02em; word-break: break-all; }
+.pay-info .an { color: var(--muted); font-size: 13px; }
+label { display: block; font-size: 14px; font-weight: 500; margin: 0 0 14px; }
+.hint { display: block; font-weight: 400; color: var(--muted); font-size: 13px; }
+input, textarea, select {
+  display: block; width: 100%; margin-top: 5px; padding: 12px; font: inherit; color: var(--text);
+  background: var(--field); border: 1px solid var(--line); border-radius: 10px; min-height: 46px;
+}
+textarea { min-height: 76px; resize: vertical; }
+input:focus-visible, textarea:focus-visible, select:focus-visible, button:focus-visible, a.btn:focus-visible, summary:focus-visible {
+  outline: 2px solid var(--accent); outline-offset: 2px;
+}
+.invalid { border-color: var(--danger); }
+.err { color: var(--danger); font-size: 13px; font-weight: 400; margin-top: 4px; display: none; }
+.err.show { display: block; }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.money { position: relative; }
+.money span { position: absolute; left: 12px; top: 17px; color: var(--muted); }
+.money input { padding-left: 38px; font-variant-numeric: tabular-nums; }
+button, a.btn {
+  font: inherit; font-weight: 600; cursor: pointer; border-radius: 10px; padding: 13px 16px; min-height: 48px;
+  border: 1px solid var(--line); background: var(--panel); color: var(--text); text-align: center; text-decoration: none; display: block; width: 100%;
+}
+.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.small-btn { width: auto; min-height: 36px; padding: 6px 12px; font-size: 14px; flex: none; }
 
-            #done {
-                display: none;
-            }
-            #done.show {
-                display: block;
-            }
-            .ok-head {
-                display: flex;
-                gap: 12px;
-                align-items: center;
-                background: var(--ok-soft);
-                border-radius: 10px;
-                padding: 12px;
-                margin-bottom: 12px;
-            }
-            .ok-head h2 {
-                margin: 0;
-                color: var(--ok);
-            }
-            .ok-head p {
-                margin: 0;
-                font-size: 14px;
-                color: var(--muted);
-            }
-            dl.sum {
-                margin: 0 0 14px;
-                display: grid;
-                grid-template-columns: auto 1fr;
-                gap: 6px 14px;
-                font-size: 15px;
-            }
-            dl.sum dt {
-                color: var(--muted);
-            }
-            dl.sum dd {
-                margin: 0;
-                font-weight: 500;
-                text-align: right;
-            }
-            .stack {
-                display: grid;
-                gap: 10px;
-            }
-            .msg {
-                white-space: pre-wrap;
-                background: var(--field);
-                border: 1px dashed var(--line);
-                border-radius: 10px;
-                padding: 12px;
-                font-size: 14px;
-                margin-bottom: 14px;
-            }
-            .status {
-                font-size: 14px;
-                color: var(--ok);
-                min-height: 20px;
-                text-align: center;
-            }
-            @media (max-width: 380px) {
-                .row2 {
-                    grid-template-columns: 1fr;
-                }
-            }
-        </style>
-    </head>
-    <body>
-        <main>
-            <header class="brand">
-                <h1 id="coTitle">Glink Network</h1>
-                <p>Konfirmasi pembayaran tagihan internet</p>
-            </header>
+#done { display: none; }
+#done.show { display: block; }
+.ok-head { display: flex; gap: 12px; align-items: center; background: var(--ok-soft); border-radius: 10px; padding: 12px; margin-bottom: 12px; }
+.ok-head h2 { margin: 0; color: var(--ok); }
+.ok-head p { margin: 0; font-size: 14px; color: var(--muted); }
+dl.sum { margin: 0 0 14px; display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; font-size: 15px; }
+dl.sum dt { color: var(--muted); }
+dl.sum dd { margin: 0; font-weight: 500; text-align: right; }
+.stack { display: grid; gap: 10px; }
+.msg { white-space: pre-wrap; background: var(--field); border: 1px dashed var(--line); border-radius: 10px; padding: 12px; font-size: 14px; margin-bottom: 14px; }
+.status { font-size: 14px; color: var(--ok); min-height: 20px; text-align: center; }
+@media (max-width: 380px) { .row2 { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<main>
+  <header class="brand">
+    <button type="button" class="back-link" id="backTop" hidden>&larr; Kembali</button>
+    <h1 id="coTitle">Glink Network</h1>
+    <p>Konfirmasi pembayaran tagihan internet</p>
+  </header>
 
-            <section class="card pay-info" aria-label="Rekening pembayaran">
-                <h2>1. Transfer ke rekening ini</h2>
-                <div class="acc">
-                    <div>
-                        <div class="bank" id="bankName">Bank Bri</div>
-                        <div class="no" id="bankNo">222501007886506</div>
-                        <div class="an" id="bankAn">a.n. Chandra Ferlian</div>
-                    </div>
-                    <button type="button" class="small-btn" id="copyNo">
-                        Salin
-                    </button>
-                </div>
-            </section>
-            <section class="card pay-info" aria-label="Rekening pembayaran">
-                <h2>2. Transfer ke rekening ini</h2>
-                <div class="acc">
-                    <div>
-                        <div class="bank" id="bankName">Dana</div>
-                        <div class="no" id="bankNo">628122713554</div>
-                        <div class="an" id="bankAn">a.n. Chandra Ferlian</div>
-                    </div>
-                    <button type="button" class="small-btn" id="copyNo">
-                        Salin
-                    </button>
-                </div>
-            </section>
+  <section class="card pay-info" aria-label="Rekening pembayaran">
+    <h2>1. Transfer ke salah satu rekening ini</h2>
+    <div class="acc">
+      <div>
+        <div class="bank" id="bankName">Bank BRI</div>
+        <div class="no" id="bankNo">222501007886506</div>
+        <div class="an" id="bankAn">a.n. Chandra Ferlian</div>
+      </div>
+      <button type="button" class="small-btn copy" data-copy="bankNo">Salin</button>
+    </div>
+    <div class="acc">
+      <div>
+        <div class="bank" id="bankName2">Dana</div>
+        <div class="no" id="bankNo2">628122713554</div>
+        <div class="an" id="bankAn2">a.n. Chandra Ferlian</div>
+      </div>
+      <button type="button" class="small-btn copy" data-copy="bankNo2">Salin</button>
+    </div>
+  </section>
 
-            <form id="form" class="card" novalidate>
-                <h2>2. Isi data pembayaran</h2>
+  <form id="form" class="card" novalidate>
+    <h2>2. Isi data pembayaran</h2>
 
-                <label
-                    >Nama pelanggan
-                    <input id="name" autocomplete="name" required />
-                    <span class="err" id="e-name"
-                        >Isi nama sesuai data berlangganan.</span
-                    >
-                </label>
+    <label>Nama pelanggan
+      <input id="name" autocomplete="name" required>
+      <span class="err" id="e-name">Isi nama sesuai data berlangganan.</span>
+    </label>
 
-                <div class="row2">
-                    <label
-                        >ID pelanggan
-                        <input
-                            id="cid"
-                            placeholder="PLG-0001"
-                            autocapitalize="characters"
-                            required
-                        />
-                        <span class="err" id="e-cid">Isi ID pelanggan.</span>
-                    </label>
-                    <label
-                        >Nomor tagihan
-                        <input id="inv" placeholder="opsional" />
-                    </label>
-                </div>
+    <div class="row2">
+      <label>ID pelanggan
+        <input id="cid" placeholder="PLG-0001" autocapitalize="characters" required>
+        <span class="err" id="e-cid">Isi ID pelanggan.</span>
+      </label>
+      <label>Nomor tagihan
+        <input id="inv" placeholder="opsional">
+      </label>
+    </div>
 
-                <div class="row2">
-                    <label
-                        >Paket
-                        <select id="pkg">
-                            <!--option>Home 10 Mbps</option>
-                            <option selected>Home 20 Mbps</option>
-                            <option>Home 30 Mbps</option>
-                            <option>Home 50 Mbps</option-->
-                            <option selected>Lainnya</option>
-                        </select>
-                    </label>
-                    <label
-                        >Bayar untuk bulan
-                        <select id="period"></select>
-                    </label>
-                </div>
+    <div class="row2">
+      <label>Paket
+        <select id="pkg">
+          <!--option>Home 10 Mbps</option>
+          <option selected>Home 20 Mbps</option>
+          <option>Home 30 Mbps</option>
+          <option>Home 50 Mbps</option-->
+          <option selected>Lainnya</option>
+        </select>
+      </label>
+      <label>Bayar untuk bulan
+        <select id="period"></select>
+      </label>
+    </div>
 
-                <label
-                    >Jumlah yang dibayar
-                    <div class="money">
-                        <span>Rp</span
-                        ><input
-                            id="amount"
-                            inputmode="numeric"
-                            placeholder="150.000"
-                            required
-                        />
-                    </div>
-                    <span class="err" id="e-amount"
-                        >Isi jumlah pembayaran.</span
-                    >
-                </label>
+    <label>Jumlah yang dibayar
+      <div class="money"><span>Rp</span><input id="amount" inputmode="numeric" placeholder="250.000" required></div>
+      <span class="err" id="e-amount">Isi jumlah pembayaran.</span>
+    </label>
 
-                <div class="row2">
-                    <label
-                        >Tanggal bayar
-                        <input type="date" id="date" required />
-                        <span class="err" id="e-date"
-                            >Pilih tanggal bayar.</span
-                        >
-                    </label>
-                    <label
-                        >Metode bayar
-                        <select id="method">
-                            <option>Transfer bank</option>
-                            <option>QRIS</option>
-                            <option>E-wallet</option>
-                            <option>Tunai di kantor</option>
-                        </select>
-                    </label>
-                </div>
+    <div class="row2">
+      <label>Tanggal bayar
+        <input type="date" id="date" required>
+        <span class="err" id="e-date">Pilih tanggal bayar.</span>
+      </label>
+      <label>Metode bayar
+        <select id="method">
+          <option>Transfer bank</option>
+          <option>QRIS</option>
+          <option>E-wallet</option>
+          <option>Tunai di kantor</option>
+        </select>
+      </label>
+    </div>
 
-                <label
-                    >Nama pemilik rekening pengirim
-                    <input
-                        id="sender"
-                        placeholder="jika berbeda dengan nama pelanggan"
-                    />
-                </label>
+    <label>Nama pemilik rekening pengirim
+      <input id="sender" placeholder="jika berbeda dengan nama pelanggan">
+    </label>
 
-                <label
-                    >Catatan
-                    <textarea id="note" placeholder="opsional"></textarea>
-                </label>
+    <label>Catatan
+      <textarea id="note" placeholder="opsional"></textarea>
+    </label>
 
-                <button type="submit" class="primary">
-                    Buat konfirmasi pembayaran
-                </button>
-            </form>
+    <button type="submit" class="primary">Buat konfirmasi pembayaran</button>
+  </form>
 
-            <section id="done" class="card" aria-live="polite" tabindex="-1">
-                <div class="ok-head">
-                    <svg
-                        width="30"
-                        height="30"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        style="color: var(--ok); flex: none"
-                        stroke-width="2.4"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        aria-hidden="true"
-                    >
-                        <circle cx="12" cy="12" r="10" />
-                        <path d="M7.5 12.5l3 3 6-7" />
-                    </svg>
-                    <div>
-                        <h2>Konfirmasi siap dikirim</h2>
-                        <p>Langkah terakhir: kirim ke admin.</p>
-                    </div>
-                </div>
-                <dl class="sum" id="sum"></dl>
-                <h3 style="font-size: 15px; margin-bottom: 6px">
-                    3. Kirim ke admin
-                </h3>
-                <div class="msg" id="msg"></div>
-                <div class="stack">
-                    <a
-                        class="btn primary"
-                        id="wa"
-                        href="https://wa.me/6285755604512"
-                        target="_blank"
-                        rel="noopener"
-                        >Kirim lewat WhatsApp</a
-                    >
-                    <button type="button" id="copyMsg">Salin pesan</button>
-                    <button type="button" id="again">Isi form baru</button>
-                </div>
-                <p class="status" id="status" role="status"></p>
-                <p class="hint">
-                    Jangan lupa lampirkan foto bukti transfer di chat WhatsApp.
-                    Form ini tidak mengirim file.
-                </p>
-            </section>
+  <section id="done" class="card" aria-live="polite" tabindex="-1">
+    <div class="ok-head">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="color:var(--ok);flex:none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M7.5 12.5l3 3 6-7"/></svg>
+      <div><h2>Konfirmasi siap dikirim</h2><p>Langkah terakhir: kirim ke admin.</p></div>
+    </div>
+    <dl class="sum" id="sum"></dl>
+    <h3 style="font-size:15px;margin-bottom:6px">3. Kirim ke admin</h3>
+    <div class="msg" id="msg"></div>
+    <div class="stack">
+      <a class="btn primary" id="wa" href="#" target="_blank" rel="noopener">Kirim lewat WhatsApp</a>
+      <button type="button" id="copyMsg">Salin pesan</button>
+      <button type="button" id="backForm">&larr; Kembali ke form</button>
+      <button type="button" id="again">Isi form baru</button>
+    </div>
+    <p class="status" id="status" role="status"></p>
+    <p class="hint">Jangan lupa lampirkan foto bukti transfer di chat WhatsApp. Form ini tidak mengirim file.</p>
+  </section>
 
-            <details class="admin">
-                <summary>Pengaturan penyedia (untuk admin)</summary>
-                <div class="card">
-                    <label
-                        >Nama perusahaan
-                        <input id="cfgCo" value="Nama Penyedia"
-                    /></label>
-                    <label
-                        >Nomor WhatsApp admin
-                        <span class="hint"
-                            >Awali 62, tanpa spasi atau tanda +</span
-                        >
-                        <input
-                            id="cfgWa"
-                            inputmode="numeric"
-                            value="6281200000000"
-                        />
-                    </label>
-                    <div class="row2">
-                        <label
-                            >Bank <input id="cfgBank" value="Bank ABC"
-                        /></label>
-                        <label
-                            >No. rekening <input id="cfgNo" value="1234567890"
-                        /></label>
-                    </div>
-                    <label
-                        >Atas nama
-                        <input id="cfgAn" value="Nama Penyedia Internet"
-                    /></label>
-                </div>
-            </details>
-        </main>
+</main>
 
-        <script>
-            (function () {
-                var $ = function (id) {
-                    return document.getElementById(id);
-                };
-                var rpFmt = function (n) {
-                    return "Rp " + Number(n).toLocaleString("id-ID");
-                };
-                var months = [
-                    "Januari",
-                    "Februari",
-                    "Maret",
-                    "April",
-                    "Mei",
-                    "Juni",
-                    "Juli",
-                    "Agustus",
-                    "September",
-                    "Oktober",
-                    "November",
-                    "Desember"
-                ];
-                var lastMsg = "";
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var rpFmt = function (n) { return "Rp " + Number(n).toLocaleString("id-ID"); };
+  var months = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+  var lastMsg = "";
 
-                // bulan: 2 bulan lalu s/d 2 bulan ke depan
-                var now = new Date();
-                for (var i = -2; i <= 2; i++) {
-                    var d = new Date(now.getFullYear(), now.getMonth() + i, 1);
-                    var o = document.createElement("option");
-                    o.textContent =
-                        months[d.getMonth()] + " " + d.getFullYear();
-                    if (i === 0) o.selected = true;
-                    $("period").appendChild(o);
-                }
-                $("date").value =
-                    now.getFullYear() +
-                    "-" +
-                    String(now.getMonth() + 1).padStart(2, "0") +
-                    "-" +
-                    String(now.getDate()).padStart(2, "0");
+  // bulan: 2 bulan lalu s/d 2 bulan ke depan
+  var now = new Date();
+  for (var i = -2; i <= 2; i++) {
+    var d = new Date(now.getFullYear(), now.getMonth() + i, 1);
+    var o = document.createElement("option");
+    o.textContent = months[d.getMonth()] + " " + d.getFullYear();
+    if (i === 0) o.selected = true;
+    $("period").appendChild(o);
+  }
+  $("date").value = now.getFullYear() + "-" + String(now.getMonth() + 1).padStart(2, "0") + "-" + String(now.getDate()).padStart(2, "0");
 
-                function syncConfig() {
-                    $("coTitle").textContent =
-                        $("cfgCo").value || "Penyedia Internet";
-                    $("bankName").textContent = $("cfgBank").value || "-";
-                    $("bankNo").textContent = $("cfgNo").value || "-";
-                    $("bankAn").textContent =
-                        "a.n. " + ($("cfgAn").value || "-");
-                }
-                ["cfgCo", "cfgBank", "cfgNo", "cfgAn"].forEach(function (id) {
-                    $(id).addEventListener("input", syncConfig);
-                });
+  // Nomor WhatsApp admin (awali 62, tanpa spasi atau tanda +). Ganti sesuai nomor admin.
+  var WA_ADMIN = "6285755604512";
 
-                $("amount").addEventListener("input", function () {
-                    var digits = this.value.replace(/\D/g, "");
-                    this.value = digits
-                        ? Number(digits).toLocaleString("id-ID")
-                        : "";
-                });
+  $("amount").addEventListener("input", function () {
+    var digits = this.value.replace(/\D/g, "");
+    this.value = digits ? Number(digits).toLocaleString("id-ID") : "";
+  });
 
-                function fmtDate(v) {
-                    var p = v.split("-");
-                    return new Date(+p[0], +p[1] - 1, +p[2]).toLocaleDateString(
-                        "id-ID",
-                        { day: "numeric", month: "long", year: "numeric" }
-                    );
-                }
+  function fmtDate(v) {
+    var p = v.split("-");
+    return new Date(+p[0], +p[1] - 1, +p[2]).toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" });
+  }
 
-                function flash(text) {
-                    $("status").textContent = text;
-                    setTimeout(function () {
-                        $("status").textContent = "";
-                    }, 2500);
-                }
-                function copyText(text, okText) {
-                    function fallback() {
-                        var ta = document.createElement("textarea");
-                        ta.value = text;
-                        ta.style.position = "fixed";
-                        ta.style.opacity = "0";
-                        document.body.appendChild(ta);
-                        ta.select();
-                        var ok = false;
-                        try {
-                            ok = document.execCommand("copy");
-                        } catch (e) {}
-                        document.body.removeChild(ta);
-                        flash(
-                            ok
-                                ? okText
-                                : "Gagal menyalin. Salin manual dari kotak pesan."
-                        );
-                    }
-                    try {
-                        if (
-                            navigator.clipboard &&
-                            navigator.clipboard.writeText
-                        ) {
-                            navigator.clipboard
-                                .writeText(text)
-                                .then(function () {
-                                    flash(okText);
-                                }, fallback);
-                        } else {
-                            fallback();
-                        }
-                    } catch (e) {
-                        fallback();
-                    }
-                }
+  function flash(text) {
+    $("status").textContent = text;
+    setTimeout(function () { $("status").textContent = ""; }, 2500);
+  }
+  function copyText(text, okText) {
+    function fallback() {
+      var ta = document.createElement("textarea");
+      ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      var ok = false;
+      try { ok = document.execCommand("copy"); } catch (e) {}
+      document.body.removeChild(ta);
+      flash(ok ? okText : "Gagal menyalin. Salin manual dari kotak pesan.");
+    }
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function () { flash(okText); }, fallback);
+      } else { fallback(); }
+    } catch (e) { fallback(); }
+  }
 
-                $("copyNo").addEventListener("click", function () {
-                    var btn = this;
-                    copyText($("bankNo").textContent, "Nomor rekening disalin");
-                    btn.textContent = "Tersalin";
-                    setTimeout(function () {
-                        btn.textContent = "Salin";
-                    }, 1800);
-                });
-                $("copyMsg").addEventListener("click", function () {
-                    copyText(lastMsg, "Pesan disalin");
-                });
+  Array.prototype.forEach.call(document.querySelectorAll(".copy"), function (btn) {
+    btn.addEventListener("click", function () {
+      copyText($(btn.getAttribute("data-copy")).textContent, "Nomor rekening disalin");
+      btn.textContent = "Tersalin";
+      setTimeout(function () { btn.textContent = "Salin"; }, 1800);
+    });
+  });
+  $("copyMsg").addEventListener("click", function () { copyText(lastMsg, "Pesan disalin"); });
 
-                function check(id, errId, ok) {
-                    $(id).classList.toggle("invalid", !ok);
-                    $(errId).classList.toggle("show", !ok);
-                    $(id).setAttribute("aria-invalid", ok ? "false" : "true");
-                    return ok;
-                }
+  function check(id, errId, ok) {
+    $(id).classList.toggle("invalid", !ok);
+    $(errId).classList.toggle("show", !ok);
+    $(id).setAttribute("aria-invalid", ok ? "false" : "true");
+    return ok;
+  }
 
-                $("form").addEventListener("submit", function (e) {
-                    e.preventDefault();
-                    var r = [
-                        check(
-                            "name",
-                            "e-name",
-                            $("name").value.trim().length > 1
-                        ),
-                        check("cid", "e-cid", $("cid").value.trim().length > 0),
-                        check(
-                            "amount",
-                            "e-amount",
-                            Number($("amount").value.replace(/\D/g, "")) > 0
-                        ),
-                        check("date", "e-date", !!$("date").value)
-                    ];
-                    if (r.indexOf(false) !== -1) {
-                        var first = document.querySelector(".invalid");
-                        if (first) first.focus();
-                        return;
-                    }
+  $("form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var r = [
+      check("name", "e-name", $("name").value.trim().length > 1),
+      check("cid", "e-cid", $("cid").value.trim().length > 0),
+      check("amount", "e-amount", Number($("amount").value.replace(/\D/g, "")) > 0),
+      check("date", "e-date", !!$("date").value)
+    ];
+    if (r.indexOf(false) !== -1) {
+      var first = document.querySelector(".invalid");
+      if (first) first.focus();
+      return;
+    }
 
-                    var amount = Number($("amount").value.replace(/\D/g, ""));
-                    var rows = [
-                        ["Nama", $("name").value.trim()],
-                        ["ID pelanggan", $("cid").value.trim().toUpperCase()],
-                        ["Nomor tagihan", $("inv").value.trim() || "-"],
-                        ["Paket", $("pkg").value],
-                        ["Periode", $("period").value],
-                        ["Jumlah", rpFmt(amount)],
-                        ["Tanggal bayar", fmtDate($("date").value)],
-                        ["Metode", $("method").value]
-                    ];
-                    if ($("sender").value.trim())
-                        rows.push([
-                            "Rekening pengirim",
-                            $("sender").value.trim()
-                        ]);
+    var amount = Number($("amount").value.replace(/\D/g, ""));
+    var rows = [
+      ["Nama", $("name").value.trim()],
+      ["ID pelanggan", $("cid").value.trim().toUpperCase()],
+      ["Nomor tagihan", $("inv").value.trim() || "-"],
+      ["Paket", $("pkg").value],
+      ["Periode", $("period").value],
+      ["Jumlah", rpFmt(amount)],
+      ["Tanggal bayar", fmtDate($("date").value)],
+      ["Metode", $("method").value]
+    ];
+    if ($("sender").value.trim()) rows.push(["Rekening pengirim", $("sender").value.trim()]);
 
-                    var sum = $("sum");
-                    sum.innerHTML = "";
-                    rows.forEach(function (r2) {
-                        var dt = document.createElement("dt");
-                        dt.textContent = r2[0];
-                        var dd = document.createElement("dd");
-                        dd.textContent = r2[1];
-                        sum.appendChild(dt);
-                        sum.appendChild(dd);
-                    });
+    var sum = $("sum");
+    sum.innerHTML = "";
+    rows.forEach(function (r2) {
+      var dt = document.createElement("dt"); dt.textContent = r2[0];
+      var dd = document.createElement("dd"); dd.textContent = r2[1];
+      sum.appendChild(dt); sum.appendChild(dd);
+    });
 
-                    var lines = [
-                        "Halo admin, saya ingin konfirmasi pembayaran internet:",
-                        ""
-                    ];
-                    rows.forEach(function (r2) {
-                        lines.push(r2[0] + ": " + r2[1]);
-                    });
-                    if ($("note").value.trim())
-                        lines.push("Catatan: " + $("note").value.trim());
-                    lines.push(
-                        "",
-                        "Bukti transfer saya lampirkan. Terima kasih."
-                    );
-                    lastMsg = lines.join("\n");
-                    $("msg").textContent = lastMsg;
+    var lines = ["Halo admin, saya ingin konfirmasi pembayaran internet:", ""];
+    rows.forEach(function (r2) { lines.push(r2[0] + ": " + r2[1]); });
+    if ($("note").value.trim()) lines.push("Catatan: " + $("note").value.trim());
+    lines.push("", "Bukti transfer saya lampirkan. Terima kasih.");
+    lastMsg = lines.join("\n");
+    $("msg").textContent = lastMsg;
 
-                    var wa = $("cfgWa").value.replace(/\D/g, "");
-                    $("wa").href =
-                        "https://wa.me/" +
-                        wa +
-                        "?text=" +
-                        encodeURIComponent(lastMsg);
+    var wa = WA_ADMIN;
+    $("wa").href = "https://wa.me/" + wa + "?text=" + encodeURIComponent(lastMsg);
 
-                    $("form").style.display = "none";
-                    $("done").classList.add("show");
-                    $("done").focus();
-                    $("done").scrollIntoView({ block: "start" });
-                });
+    $("form").style.display = "none";
+    $("done").classList.add("show");
+    $("done").focus();
+    $("done").scrollIntoView({ block: "start" });
+  });
 
-                $("again").addEventListener("click", function () {
-                    $("done").classList.remove("show");
-                    $("form").style.display = "block";
-                    $("amount").value = "";
-                    $("note").value = "";
-                    $("form").scrollIntoView({ block: "start" });
-                });
-            })();
-        </script>
-    </body>
+  // tombol kembali di atas: halaman sebelumnya (disembunyikan jika tidak ada riwayat)
+  if (window.history.length > 1) $("backTop").hidden = false;
+  $("backTop").addEventListener("click", function () {
+    if ($("done").classList.contains("show")) { showForm(); } else { window.history.back(); }
+  });
+
+  function showForm() {
+    $("done").classList.remove("show");
+    $("form").style.display = "block";
+    window.scrollTo(0, 0);
+  }
+  // kembali ke form dengan data tetap terisi (untuk koreksi)
+  $("backForm").addEventListener("click", showForm);
+
+  $("again").addEventListener("click", function () {
+    $("done").classList.remove("show");
+    $("form").style.display = "block";
+    $("amount").value = "";
+    $("note").value = "";
+    $("form").scrollIntoView({ block: "start" });
+  });
+})();
+</script>
+</body>
 </html>
