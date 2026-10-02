@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="id">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="theme-color" content="#08111f" />
+        <title>Login | Glink Network</title>
+        <link rel="icon" href="assets/img/favicon.ico" />
+        <link rel="stylesheet" href="assets/css/style.css" />
+
+        <style>
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+                font-family: Arial, Helvetica, sans-serif;
+            }
+
+            body {
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background:
+                    radial-gradient(
+                        circle at 20% 20%,
+                        rgba(0, 183, 255, 0.18),
+                        transparent 30%
+                    ),
+                    radial-gradient(
+                        circle at 80% 80%,
+                        rgba(0, 255, 170, 0.12),
+                        transparent 30%
+                    ),
+                    #050b14;
+                color: white;
+                overflow: hidden;
+            }
+
+            .network {
+                position: fixed;
+                inset: 0;
+                pointer-events: none;
+                opacity: 0.25;
+                background-image:
+                    linear-gradient(
+                        rgba(0, 183, 255, 0.08) 1px,
+                        transparent 1px
+                    ),
+                    linear-gradient(
+                        90deg,
+                        rgba(0, 183, 255, 0.08) 1px,
+                        transparent 1px
+                    );
+                background-size: 45px 45px;
+            }
+
+            .login-container {
+                width: 100%;
+                max-width: 420px;
+                padding: 20px;
+                position: relative;
+                z-index: 2;
+            }
+
+            .login-card {
+                padding: 35px 28px;
+                border: 1px solid rgba(255, 255, 255, 0.12);
+                border-radius: 24px;
+                background: rgba(10, 20, 35, 0.82);
+                backdrop-filter: blur(18px);
+                box-shadow: 0 25px 70px rgba(0, 0, 0, 0.5);
+            }
+
+            .logo img {
+                width: 75px;
+                height: 75px;
+                margin: auto;
+                border-radius: 22px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 30px;
+                font-weight: bold;
+                background: linear-gradient(135deg, #00b7ff, #00e6a8);
+                color: #03101c;
+                box-shadow: 0 0 35px rgba(0, 183, 255, 0.35);
+            }
+
+            h1 {
+                text-align: center;
+                margin-top: 18px;
+                font-size: 27px;
+                font-weight: 800;
+            }
+
+            .subtitle {
+                text-align: center;
+                color: #91a4b9;
+                font-size: 13px;
+                margin: 8px 0 28px;
+            }
+
+            .form-group {
+                margin-bottom: 17px;
+            }
+
+            label {
+                display: block;
+                font-size: 13px;
+                color: #aebed0;
+                margin-bottom: 8px;
+            }
+
+            .input-box {
+                position: relative;
+            }
+
+            input {
+                width: 100%;
+                padding: 14px 15px;
+                border-radius: 12px;
+                border: 1px solid #26394d;
+                outline: none;
+                background: #0b1726;
+                color: white;
+                font-size: 14px;
+                transition: 0.2s;
+            }
+
+            input:focus {
+                border-color: #00b7ff;
+                box-shadow: 0 0 0 3px rgba(0, 183, 255, 0.1);
+            }
+
+            .toggle-password {
+                position: absolute;
+                right: 14px;
+                top: 50%;
+                transform: translateY(-50%);
+                cursor: pointer;
+                color: #8295aa;
+                user-select: none;
+            }
+
+            button {
+                width: 100%;
+                border: 0;
+                padding: 14px;
+                border-radius: 12px;
+                margin-top: 5px;
+                cursor: pointer;
+                font-weight: bold;
+                color: #03101c;
+                background: linear-gradient(90deg, #00b7ff, #00e6a8);
+                transition: 0.2s;
+            }
+
+            button:hover {
+                transform: translateY(-1px);
+                box-shadow: 0 10px 25px rgba(0, 183, 255, 0.2);
+            }
+
+            button:disabled {
+                opacity: 0.6;
+                cursor: not-allowed;
+            }
+
+            .error {
+                display: none;
+                margin-bottom: 15px;
+                padding: 11px;
+                border-radius: 10px;
+                background: rgba(255, 60, 80, 0.1);
+                border: 1px solid rgba(255, 60, 80, 0.3);
+                color: #ff7f8c;
+                font-size: 13px;
+                text-align: center;
+            }
+
+            .footer {
+                text-align: center;
+                margin-top: 25px;
+                color: #687d92;
+                font-size: 11px;
+            }
+
+            @media (max-width: 480px) {
+                .login-card {
+                    padding: 30px 20px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="network"></div>
+        <div class="login-container">
+            <div class="login-card">
+                <div class="logo">
+                    <img src="assets/img/favicon.ico" alt="Logo" />
+                </div>
+                <h1>Glink Network</h1>
+                <div class="subtitle">
+                    Connecting you. Connecting the future.
+                </div>
+                <div id="errorMessage" class="error"></div>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input
+                            type="text"
+                            id="username"
+                            placeholder="Masukkan username"
+                            autocomplete="username"
+                            required
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <div class="input-box">
+                            <input
+                                type="password"
+                                id="password"
+                                placeholder="Masukkan password"
+                                autocomplete="current-password"
+                                required
+                            />
+                            <span class="toggle-password" id="togglePassword"
+                                >👁</span
+                            >
+                        </div>
+                    </div>
+                    <button type="submit" id="loginButton">LOGIN</button>
+                </form>
+                <div class="footer">
+                    <p>© 2026 : <strong> Glink Network</strong></p>
+                    <p>
+                        Powered by : <strong>Digital Media Telematika</strong>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <script src="assets/js/script.js"></script>
+    </body>
+</html>
