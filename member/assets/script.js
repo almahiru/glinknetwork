@@ -30,7 +30,7 @@ if (loginForm) {
     */
 
         const validUsername = "user";
-        const validPassword = "user123";
+        const validPassword = "user1234";
 
         if (username === validUsername && password === validPassword) {
             loginButton.disabled = true;
