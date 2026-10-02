@@ -572,26 +572,7 @@
                     </div>
                     <i class="fa-solid fa-chevron-right device-chevron"></i>
                 </a>
-                <canvas id="c" width="600" height="300"></canvas>
-                <script>
-                    const ctx = document.getElementById("c").getContext("2d");
-                    function render(data) {
-                        ctx.clearRect(0, 0, 600, 300);
-                        ctx.fillStyle = "#fff";
-                        ctx.fillRect(0, 0, 600, 300);
-                        ctx.fillStyle = "#000";
-                        ctx.font = "bold 24px sans-serif";
-                        ctx.fillText(data.judul, 20, 50);
-                        ctx.font = "18px sans-serif";
-                        ctx.fillText("SSID: " + data.ssid, 20, 100);
-                        ctx.fillText("Password: " + data.password, 20, 130);
-                    }
-                    render({
-                        judul: "Info Modem",
-                        ssid: "WIFI-01",
-                        password: "12345678"
-                    });
-                </script>
+                
                 <a
                     href="https://www.speedtest.net/id"
                     target="_blank"
