@@ -25,8 +25,8 @@ if (loginForm) {
         /*
       LOGIN DEMO
 
-      Username : admin
-      Password : glink123
+      Username : user
+      Password : user1234
     */
 
         const validUsername = "user";
