@@ -49,7 +49,7 @@ if (loginForm) {
       */
 
             setTimeout(function () {
-                window.location.href = "dashboard.html";
+                window.location.href = "status.html";
             }, 500);
         } else {
             errorMessage.textContent = "Username atau password salah.";
@@ -87,7 +87,7 @@ function checkLogin() {
     const loggedIn = localStorage.getItem("glink_logged_in");
 
     if (loggedIn !== "true") {
-        window.location.href = "index.html";
+        window.location.href = "login.html";
     }
 }
 
@@ -100,5 +100,5 @@ function logout() {
 
     localStorage.removeItem("glink_username");
 
-    window.location.href = "index.html";
+    window.location.href = "login.html";
 }
